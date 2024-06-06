@@ -670,8 +670,8 @@ h5,
 
 @media (max-width: 991.98px) {
   .site-navbar {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    /* padding-top: 3rem;
+    padding-bottom: 3rem; */
   }
 }
 
@@ -1908,3 +1908,8 @@ video {
       padding: 3rem 0 !important;
   }
 }
+
+.site-wrap {
+  overflow-x: clip;
+}
+
