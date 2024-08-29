@@ -179,73 +179,99 @@
 
 
 	
-    <div class="site-section bg-light" id="contact-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 text-center mb-5" data-aos="fade-up" data-aos-delay="">
-            <div class="block-heading-1">
+<div class="site-section bg-light" id="contact-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5" data-aos="fade-up" data-aos-delay="">
+        <div class="block-heading-1">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="text-black">Оставьте заявку</h2>
+        <form style="margin-top:70px;" id="contactForm">
+          <div class="form-group row">
+            <div class="col-md-12">
+              <input type="text" class="form-control" name="name" placeholder="Ваша имя" style="border-radius: 35px;">
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-delay="100">
-            <h2  class="text-black">Оставьте заявку</h2>
-            <form style="margin-top:70px;" id="contactForm">
-              <div class="form-group row">
-                <div class="col-md-12 ">
-                  <input type="text" class="form-control" name="name" placeholder="Ваша имя" style="border-radius: 35px";>
-                </div>
-              </div>
 
-              <div style="margin-top:20px;" class="form-group row">
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="phone" placeholder="Ваш номер телефона" style="border-radius: 35px";>
-                </div>
-              </div>
-			  
-			  <div style="margin-top:20px;" class="form-group row">
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="Comment" placeholder="Комментарий" style="border-radius: 35px";>
-                </div>
-              </div>
+          <div style="margin-top:20px;" class="form-group row">
+            <div class="col-md-12">
+              <input type="text" 
+                     class="form-control" 
+                     name="phone" 
+                     id="phone" 
+                     placeholder="+7 (___) _______" 
+                     style="border-radius: 35px;"
+                     pattern="\+7\s\(\d{3}\)\s\d{7}"
+                     title="Введите номер телефона в формате +7 (XXX) XXXXXXX"
+                     required>
+            </div>
+          </div>
 
-              <div style="text-align: center; font-size: 14px; margin-top:80px;">
-                <p>Нажимая на кнопку «Забронировать»,<br>вы соглашаетесь на обработку персональных данных</p>
-              </div>
+          <div style="margin-top:20px;" class="form-group row">
+            <div class="col-md-12">
+              <input type="text" class="form-control" name="Comment" placeholder="Комментарий" style="border-radius: 35px;">
+            </div>
+          </div>
 
+          <div style="text-align: center; font-size: 14px; margin-top:80px;">
+            <p>Нажимая на кнопку «Забронировать»,<br>вы соглашаетесь на обработку персональных данных</p>
+          </div>
 
-              <div style="margin-top:20px;" class="form-group row">
-                <div class="col-md-12 ml-auto">
-                  <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" value="Забронировать" style="border-radius: 35px";>
-                </div>
-              </div>
-            </form>
-            <script>
-              document.getElementById('contactForm').addEventListener('submit', function (e) {
-                e.preventDefault();
+          <div style="margin-top:20px;" class="form-group row">
+            <div class="col-md-12 ml-auto">
+              <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" value="Забронировать" style="border-radius: 35px;">
+            </div>
+          </div>
+        </form>
+        
+        <script>
+          // Function to format phone number as +7 (___) _______
+          document.getElementById("phone").addEventListener("input", function (event) {
+            var input = event.target;
+            var value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
+            var formattedValue = '+7 ('; // Start with the required format
 
-                const formData = new FormData(this);
-                const data = {};
-                formData.forEach((value, key) => {
-                  data[key] = value;
-                });
+            if (value.length > 1) {
+              formattedValue += value.substring(1, 4); // Add the area code
+            }
 
-                fetch('http://localhost:3000/send', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(data)
-                })
-                  .then(response => response.json())
-                  .then(data => {
-                    alert(data.message);
-                  })
-                  .catch(error => {
-                    console.error('Ошибка:', error);
-                  });
+            if (value.length > 4) {
+              formattedValue += ') ' + value.substring(4, 11); // Add the main number
+            }
+
+            input.value = formattedValue; // Set the formatted value back to the input
+          });
+
+          // Validation on form submission
+          document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+              data[key] = value;
+            });
+
+            fetch('http://localhost:3000/send', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+              .then(response => response.json())
+              .then(data => {
+                alert(data.message);
+              })
+              .catch(error => {
+                console.error('Ошибка:', error);
               });
-            </script>
+          });
+        </script>
           </div>
           <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="200" id="contact" >
             <h2 class="text-black">Контакты</h2>
